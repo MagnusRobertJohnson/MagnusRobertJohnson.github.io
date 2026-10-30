@@ -69,6 +69,7 @@
         .book-grid h3 { margin-top: 12px; }
         ol.books, ul.books { margin: 0; padding-left: 1.6rem; }
         ol.books li, ul.books li { padding: 2px 0; }
+        ul.books.plain { list-style: none; padding-left: 0; }
         .scroll { max-height: 420px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 10px 10px 10px 0; }
         #book-filter {
             width: 100%;
@@ -126,11 +127,11 @@
             <div class="book-grid">
                 <div>
                     <h3>Top 20 Fiction</h3>
-                    <ol class="books" id="list-fiction"><li class="status">Loading…</li></ol>
+                    <ul class="books plain" id="list-fiction"><li class="status">Loading…</li></ul>
                 </div>
                 <div>
                     <h3>Top 20 Non-Fiction</h3>
-                    <ol class="books" id="list-nonfiction"><li class="status">Loading…</li></ol>
+                    <ul class="books plain" id="list-nonfiction"><li class="status">Loading…</li></ul>
                 </div>
             </div>
 
@@ -166,7 +167,7 @@
             el.innerHTML = '';
             items.forEach(item => {
                 const li = document.createElement('li');
-                li.textContent = id === 'list-all' ? item : item.replace(/^\d+[.)]\s*/, '');
+                li.textContent = item;
                 el.appendChild(li);
             });
         }
