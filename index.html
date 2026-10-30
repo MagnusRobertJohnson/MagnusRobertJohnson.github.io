@@ -166,7 +166,7 @@
             el.innerHTML = '';
             items.forEach(item => {
                 const li = document.createElement('li');
-                li.textContent = item;
+                li.textContent = id === 'list-all' ? item : item.replace(/^\d+[.)]\s*/, '');
                 el.appendChild(li);
             });
         }
