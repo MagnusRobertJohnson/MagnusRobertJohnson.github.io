@@ -1,0 +1,13 @@
+{
+  "name": "magnusrobertjohnson-github-io",
+  "version": "1.0.0",
+  "description": "Personal website of Magnus Johnson (static site hosted on GitHub Pages)",
+  "private": true,
+  "scripts": {
+    "dev": "http-server . -p 8080 -c-1 -o",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

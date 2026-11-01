@@ -1,0 +1,6 @@
+BTC:
+bc1qsw7z0npzfs9vjrqqf05dwf8v7qrfhqav5ckxau
+
+ETH:
+0x9344D465E85a8F93C89cb365790bbcCF9bFE2e5A
+
