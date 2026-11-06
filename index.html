@@ -56,8 +56,9 @@
         }
         .wallet { text-align: center; margin-bottom: 20px; }
         .wallet:last-child { margin-bottom: 0; }
-        .wallet h3 { margin: 0 0 8px; }
-        .wallet canvas, .wallet img { width: 180px; height: 180px; image-rendering: pixelated; }
+        .wallet h3 { margin: 0 0 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .wallet-icon { width: 28px; height: 28px; }
+        .wallet-qr img { width: 180px; height: 180px; image-rendering: pixelated; }
         .addr {
             font-family: Consolas, Menlo, monospace;
             font-size: 0.78rem;
@@ -94,6 +95,12 @@
         }
         .btn:hover { opacity: 0.9; }
         .btn.secondary { background: #fff; color: var(--accent); }
+        .app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 24px; }
+        .app { text-align: center; min-width: 0; }
+        .app-logo { display: block; width: min(100%, 140px); aspect-ratio: 1; object-fit: cover; border-radius: 16px; margin: 0 auto; }
+        .app a { display: block; border-radius: 16px; }
+        .app h3 { margin: 10px 0 2px; font-size: 1rem; }
+        .app-status { color: var(--muted); font-size: 0.9rem; margin: 0; }
         .book-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
         .book-grid h3 { margin-top: 12px; }
         ol.books, ul.books { margin: 0; padding-left: 1.6rem; }
@@ -120,6 +127,7 @@
         <p>P.Eng. &middot; LEED Green Associate &middot; Co-founder, HeatWise HVAC</p>
         <nav>
             <a href="#about">About</a>
+            <a href="#applications">My Applications</a>
             <a href="#author">My Book</a>
             <a href="#reading">Reading</a>
         </nav>
@@ -137,6 +145,35 @@
             <div class="buttons">
                 <a class="btn" href="https://www.heatwise-hvac.com/" target="_blank" rel="noopener">HeatWise HVAC</a>
                 <a class="btn secondary" href="https://www.linkedin.com/in/magnus-johnson-p-eng-leed-green-associate-891033158/" target="_blank" rel="noopener">LinkedIn</a>
+                <a class="btn secondary" href="https://github.com/magnusrobertjohnson" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </section>
+
+        <section id="applications">
+            <h2>My Applications</h2>
+            <div class="app-grid">
+                <article class="app">
+                    <a href="https://www.heatwise-hvac.com/" target="_blank" rel="noopener" aria-label="Visit HeatWise">
+                        <img class="app-logo" src="assets/heatwise-logo.png" alt="">
+                    </a>
+                    <h3>HeatWise</h3>
+                    <p class="app-status">Web App</p>
+                </article>
+                <article class="app">
+                    <img class="app-logo" src="assets/heatwise-logo.png" alt="">
+                    <h3>HeatWise Mobile</h3>
+                    <p class="app-status">In development</p>
+                </article>
+                <article class="app">
+                    <img class="app-logo" src="assets/hardware-reference.svg" alt="">
+                    <h3>Hardware Reference Tool</h3>
+                    <p class="app-status">In development</p>
+                </article>
+                <article class="app">
+                    <img class="app-logo" src="assets/hockey-pool.svg" alt="">
+                    <h3>Hockey Pool</h3>
+                    <p class="app-status">In development</p>
+                </article>
             </div>
         </section>
 
@@ -188,6 +225,7 @@
     <script>
         // Wallet addresses live in wallet/Wallet Addresses.txt as "LABEL:" followed by the address on the next line.
         const WALLET_NAMES = { BTC: 'Bitcoin (BTC)', ETH: 'Ethereum (ETH)' };
+        const WALLET_ICONS = { BTC: 'assets/bitcoin.svg', ETH: 'assets/ethereum.svg' };
 
         function parseWallets(text) {
             const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
@@ -206,12 +244,21 @@
             div.className = 'wallet';
 
             const h = document.createElement('h3');
-            h.textContent = WALLET_NAMES[label.toUpperCase()] || label;
+            const symbol = label.toUpperCase();
+            if (Object.hasOwn(WALLET_ICONS, symbol)) {
+                const icon = document.createElement('img');
+                icon.className = 'wallet-icon';
+                icon.src = WALLET_ICONS[symbol];
+                icon.alt = '';
+                h.appendChild(icon);
+            }
+            h.append(document.createTextNode(WALLET_NAMES[symbol] || label));
 
             const qr = qrcode(0, 'M');
             qr.addData(address);
             qr.make();
             const img = document.createElement('div');
+            img.className = 'wallet-qr';
             img.innerHTML = qr.createImgTag(6, 8);
             img.firstChild.alt = label + ' address QR code';
 
