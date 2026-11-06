@@ -106,17 +106,25 @@
         ol.books, ul.books { margin: 0; padding-left: 1.6rem; }
         ol.books li, ul.books li { padding: 2px 0; }
         ul.books.plain { list-style: none; padding-left: 0; }
-        .scroll { max-height: 420px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 10px 10px 10px 0; }
-        #book-filter {
+        .book-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+        .book-filters label { display: block; font-size: 0.9rem; font-weight: 600; }
+        .book-filters input, .book-filters select {
             width: 100%;
             padding: 9px 12px;
-            margin-bottom: 10px;
+            margin-top: 4px;
             border: 1px solid var(--border);
             border-radius: 8px;
             font-size: 1rem;
+            font-family: inherit;
+            background: #fff;
         }
+        .book-stats { color: var(--muted); font-size: 0.9rem; }
+        .scroll { max-height: 420px; overflow: auto; border: 1px solid var(--border); border-radius: 8px; }
+        .book-table { width: 100%; min-width: 500px; border-collapse: collapse; text-align: left; }
+        .book-table th, .book-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+        .book-table th { background: var(--bg); position: sticky; top: 0; }
+        .book-table tr:last-child td { border-bottom: 0; }
         .status { color: var(--muted); font-size: 0.9rem; list-style: none; }
-        .count { color: var(--muted); font-weight: normal; font-size: 0.9rem; }
         footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding-bottom: 30px; }
     </style>
 </head>
@@ -202,10 +210,25 @@
                 </div>
             </div>
 
-            <h3>Every Book I've Read <span class="count" id="count-all"></span></h3>
-            <input type="search" id="book-filter" placeholder="Filter books…" aria-label="Filter books">
+            <h3>Every Book I've Read</h3>
+            <div class="book-filters">
+                <label>Search
+                    <input type="search" id="book-filter" placeholder="Title, author, or year">
+                </label>
+                <label>Author
+                    <select id="book-author" disabled><option value="">All authors</option></select>
+                </label>
+                <label>Publication century
+                    <select id="book-century" disabled><option value="">All centuries</option></select>
+                </label>
+            </div>
+            <p class="book-stats" id="book-stats" role="status">Loading books…</p>
+            <p class="book-stats">Each co-author is counted. Publication ranges use the first year; approximate dates retain their stated century.</p>
             <div class="scroll">
-                <ul class="books" id="list-all"><li class="status">Loading…</li></ul>
+                <table class="book-table">
+                    <thead><tr><th scope="col">Book title</th><th scope="col">Author</th><th scope="col">Original publication year</th></tr></thead>
+                    <tbody id="list-all"><tr><td colspan="3" class="status">Loading…</td></tr></tbody>
+                </table>
             </div>
         </section>
     </main>
@@ -304,11 +327,10 @@
 
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Book lists live in the /books folder; one book per line.
+        // The top-20 lists live in the /books folder; one book per line.
         const LISTS = [
             { file: '_001 Top 20 Fictional.txt', id: 'list-fiction' },
-            { file: '_002 Top 20 Non-Fiction.txt', id: 'list-nonfiction' },
-            { file: '_003 Full Book List.txt', id: 'list-all' }
+            { file: '_002 Top 20 Non-Fiction.txt', id: 'list-nonfiction' }
         ];
 
         async function loadList(file) {
@@ -332,17 +354,11 @@
             try {
                 const items = await loadList(file);
                 render(id, items);
-                if (id === 'list-all') {
-                    document.getElementById('count-all').textContent = '(' + items.length + ')';
-                    document.getElementById('book-filter').addEventListener('input', e => {
-                        const q = e.target.value.toLowerCase();
-                        render(id, items.filter(i => i.toLowerCase().includes(q)));
-                    });
-                }
             } catch (e) {
                 document.getElementById(id).innerHTML = '<li class="status">List not available yet.</li>';
             }
         });
     </script>
+    <script src="books/books.js"></script>
 </body>
 </html>
