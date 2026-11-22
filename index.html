@@ -7,12 +7,12 @@
     <meta name="description" content="Magnus Johnson – Professional Engineer, LEED Green Associate, and co-founder of HeatWise HVAC.">
     <style>
         :root {
-            --bg: #f4f6fa;
+            --bg: #f7f7f7;
             --card: #ffffff;
-            --text: #222b38;
-            --muted: #667085;
-            --accent: #1a5fb4;
-            --border: #e1e6ee;
+            --text: #171717;
+            --muted: #626262;
+            --accent: #111111;
+            --border: #dedede;
         }
         * { box-sizing: border-box; }
         body {
@@ -23,13 +23,16 @@
             line-height: 1.6;
         }
         header {
-            background: linear-gradient(135deg, #12356b, #1a5fb4);
+            background: #3a3a3a;
             color: #fff;
             text-align: center;
-            padding: 56px 20px 44px;
+            padding: 24px 20px 30px;
+            border-bottom: 1px solid var(--border);
         }
+        .header-inner { max-width: 1160px; margin: 0 auto; position: relative; }
+        .brand-logo { position: absolute; top: 0; left: -24px; width: 108px; height: 108px; object-fit: contain; }
         header h1 { margin: 0 0 6px; font-size: 2.2rem; }
-        header p { margin: 0; opacity: 0.85; }
+        header p { margin: 0; color: #e5e5e5; }
         nav { margin-top: 22px; }
         nav a {
             color: #fff;
@@ -53,6 +56,13 @@
         @media (max-width: 900px) {
             .layout { grid-template-columns: 1fr; }
             aside { position: static; }
+        }
+        @media (max-width: 600px) {
+            header { padding-top: 78px; }
+            .header-inner { padding-top: 68px; }
+            .brand-logo { top: -68px; left: -8px; width: 72px; height: 72px; }
+            header h1 { font-size: 1.8rem; }
+            nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 0; }
         }
         .wallet { text-align: center; margin-bottom: 20px; }
         .wallet:last-child { margin-bottom: 0; }
@@ -131,14 +141,17 @@
 <body>
 
     <header>
-        <h1>Magnus Johnson</h1>
-        <p>P.Eng. &middot; LEED Green Associate &middot; Co-founder, HeatWise HVAC</p>
-        <nav>
-            <a href="#about">About</a>
-            <a href="#applications">My Applications</a>
-            <a href="#author">My Book</a>
-            <a href="#reading">Reading</a>
-        </nav>
+        <div class="header-inner">
+            <img class="brand-logo" src="assets/personal-logo.jpg" alt="Magnus Johnson logo">
+            <h1>Magnus Johnson</h1>
+            <p>P.Eng. &middot; LEED Green Associate &middot; Co-founder, HeatWise HVAC</p>
+            <nav>
+                <a href="#about">About</a>
+                <a href="#applications">My Applications</a>
+                <a href="#author">My Book</a>
+                <a href="#reading">Reading</a>
+            </nav>
+        </div>
     </header>
 
     <div class="layout">
